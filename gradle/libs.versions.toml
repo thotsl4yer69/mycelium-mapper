@@ -1,6 +1,6 @@
 [versions]
 # --- Build tooling (stable, non-canary) ---
-agp = "9.1.1"
+agp = "9.2.1"
 kotlin = "2.2.10"
 googleDevtoolsKsp = "2.3.2"
 
