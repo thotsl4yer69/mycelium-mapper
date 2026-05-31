@@ -93,11 +93,15 @@ fun DetailScreen(
                         state = pagerState,
                         modifier = Modifier.fillMaxSize()
                     ) { page ->
+                        var isLoading by remember { mutableStateOf(true) }
+                        var isError by remember { mutableStateOf(false) }
+
                         Box(modifier = Modifier.fillMaxSize()) {
-                            // Shimmer placeholder
-                            ShimmerPlaceholder(
-                                modifier = Modifier.fillMaxSize()
-                            )
+                            // Shimmer placeholder while loading
+                            if (isLoading && !isError) {
+                                ShimmerPlaceholder(modifier = Modifier.fillMaxSize())
+                            }
+
                             AsyncImage(
                                 model = ImageRequest.Builder(context)
                                     .data(species.imageUrls[page])
@@ -105,8 +109,41 @@ fun DetailScreen(
                                     .build(),
                                 contentDescription = "${species.scientificName} photo ${page + 1}",
                                 modifier = Modifier.fillMaxSize(),
-                                contentScale = ContentScale.Crop
+                                contentScale = ContentScale.Crop,
+                                onSuccess = { isLoading = false; isError = false },
+                                onError = { isLoading = false; isError = true }
                             )
+
+                            // Error fallback — shown when image fails to load
+                            if (isError) {
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .background(Color(0xFF1A1A1A)),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                        Icon(
+                                            imageVector = Icons.Default.FilterVintage,
+                                            contentDescription = null,
+                                            tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.6f),
+                                            modifier = Modifier.size(48.dp)
+                                        )
+                                        Spacer(modifier = Modifier.height(8.dp))
+                                        Text(
+                                            text = species.scientificName,
+                                            style = MaterialTheme.typography.labelMedium,
+                                            color = Color.White.copy(alpha = 0.7f),
+                                            fontStyle = FontStyle.Italic
+                                        )
+                                        Text(
+                                            text = "Image not available",
+                                            style = MaterialTheme.typography.labelSmall,
+                                            color = Color.White.copy(alpha = 0.4f)
+                                        )
+                                    }
+                                }
+                            }
                         }
                     }
 

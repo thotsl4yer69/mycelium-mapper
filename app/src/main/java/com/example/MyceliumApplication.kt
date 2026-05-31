@@ -3,6 +3,8 @@ package com.example
 import android.app.Application
 import com.example.data.local.AppDatabase
 import com.example.data.local.SettingsStore
+import com.example.data.remote.ALAApi
+import com.example.data.remote.GBIFApi
 import com.example.data.remote.INaturalistApi
 import com.example.data.remote.OpenMeteoApi
 import com.example.data.repository.FungiRepository
@@ -53,9 +55,23 @@ class MyceliumApplication : Application() {
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
 
+        val alaRetrofit = Retrofit.Builder()
+            .baseUrl("https://biocache-ws.ala.org.au/ws/")
+            .client(okHttpClient)
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .build()
+
+        val gbifRetrofit = Retrofit.Builder()
+            .baseUrl("https://api.gbif.org/v1/")
+            .client(okHttpClient)
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .build()
+
         val iNatApi = iNatRetrofit.create(INaturalistApi::class.java)
         val openMeteoApi = openMeteoRetrofit.create(OpenMeteoApi::class.java)
+        val alaApi = alaRetrofit.create(ALAApi::class.java)
+        val gbifApi = gbifRetrofit.create(GBIFApi::class.java)
 
-        repository = FungiRepository(this, database.fungiDao(), iNatApi, openMeteoApi)
+        repository = FungiRepository(this, database.fungiDao(), iNatApi, openMeteoApi, alaApi, gbifApi)
     }
 }

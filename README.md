@@ -1,4 +1,4 @@
-# Mycelium Mapper
+# Mycilliyums
 
 A personal field-research tool for mycology in Victoria, Australia. It combines a
 bundled species reference catalogue, live iNaturalist observations, and

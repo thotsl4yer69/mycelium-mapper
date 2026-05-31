@@ -11,7 +11,7 @@ import com.example.model.UserSighting
 
 @Database(
     entities = [Species::class, Observation::class, UserSighting::class],
-    version = 1,
+    version = 3,
     exportSchema = false
 )
 @TypeConverters(Converters::class)

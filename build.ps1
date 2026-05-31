@@ -1,4 +1,4 @@
-# Mycelium Mapper — one-shot build / install / launch script.
+# Mycilliyums — one-shot build / install / launch script.
 #
 # Usage (from the project folder):
 #   powershell -ExecutionPolicy Bypass -File .\build.ps1            # build + install + launch

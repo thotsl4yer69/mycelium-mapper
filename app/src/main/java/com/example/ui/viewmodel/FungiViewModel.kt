@@ -223,6 +223,24 @@ class FungiViewModel(
     }
 
     /**
+     * Exports sightings in Darwin Core format for contribution to
+     * Fungimap/ALA/GBIF biodiversity databases.
+     */
+    private val _darwinCoreExport = MutableStateFlow<String?>(null)
+    val darwinCoreExport: StateFlow<String?> = _darwinCoreExport.asStateFlow()
+
+    fun exportDarwinCore() {
+        viewModelScope.launch {
+            val csv = repository.exportDarwinCore()
+            _darwinCoreExport.value = csv
+        }
+    }
+
+    fun clearExport() {
+        _darwinCoreExport.value = null
+    }
+
+    /**
      * Clear local observation query cache (TTL management)
      */
     fun clearCache() {

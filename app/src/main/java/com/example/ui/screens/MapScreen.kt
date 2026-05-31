@@ -94,7 +94,7 @@ fun MapScreen(
     val hotspotsList = remember(hotspotState) {
         if (hotspotState is HotspotState.Success) {
             (hotspotState as HotspotState.Success).cells
-                .filter { it.tier == "High" || it.tier == "Medium" }
+                .filter { it.tier != "Unlikely" }
                 .sortedByDescending { it.score }
         } else {
             emptyList()
@@ -229,64 +229,86 @@ fun MapScreen(
                         }
                     )
 
-                    // Compass Indicator & Scale Overlay (Slightly lowered to prevent overlap with top search)
-                    Column(
-                        modifier = Modifier
-                            .align(Alignment.TopStart)
-                            .padding(top = 130.dp, start = 16.dp)
-                            .background(Color.Black.copy(alpha = 0.75f), RoundedCornerShape(8.dp))
-                            .border(1.dp, Color.White.copy(alpha = 0.15f), RoundedCornerShape(8.dp))
-                            .padding(10.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
+                    // Compass Indicator & Scale Overlay (hidden in fullscreen)
+                    androidx.compose.animation.AnimatedVisibility(
+                        visible = !isFullscreen,
+                        enter = fadeIn(),
+                        exit = fadeOut(),
+                        modifier = Modifier.align(Alignment.TopStart)
                     ) {
-                        Text(
-                            text = "N 🧭",
-                            color = Color(0xFF66BB6A),
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 13.sp,
-                            fontFamily = FontFamily.Monospace
-                        )
-                        Spacer(modifier = Modifier.height(4.dp))
-                        Text(
-                            text = "500 m grid",
-                            color = Color.LightGray,
-                            fontSize = 9.sp,
-                            fontFamily = FontFamily.Monospace
-                        )
+                        Column(
+                            modifier = Modifier
+                                .padding(top = 130.dp, start = 16.dp)
+                                .background(Color.Black.copy(alpha = 0.75f), RoundedCornerShape(8.dp))
+                                .border(1.dp, Color.White.copy(alpha = 0.15f), RoundedCornerShape(8.dp))
+                                .padding(10.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(
+                                text = "N 🧭",
+                                color = Color(0xFF66BB6A),
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 13.sp,
+                                fontFamily = FontFamily.Monospace
+                            )
+                            Spacer(modifier = Modifier.height(4.dp))
+                            Text(
+                                text = "500 m grid",
+                                color = Color.LightGray,
+                                fontSize = 9.sp,
+                                fontFamily = FontFamily.Monospace
+                            )
+                        }
                     }
 
-                    // Color Legend Overlay (Slightly lowered to prevent overlap)
-                    Column(
-                        modifier = Modifier
-                            .align(Alignment.TopEnd)
-                            .padding(top = 130.dp, end = 16.dp)
-                            .background(Color.Black.copy(alpha = 0.75f), RoundedCornerShape(8.dp))
-                            .border(1.dp, Color.White.copy(alpha = 0.15f), RoundedCornerShape(8.dp))
-                            .padding(10.dp),
-                        horizontalAlignment = Alignment.Start,
-                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                    // Color Legend Overlay — 5-tier system (hidden in fullscreen)
+                    androidx.compose.animation.AnimatedVisibility(
+                        visible = !isFullscreen,
+                        enter = fadeIn(),
+                        exit = fadeOut(),
+                        modifier = Modifier.align(Alignment.TopEnd)
                     ) {
-                        Text(
-                            text = "Likelihood",
-                            color = Color.White,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 10.sp,
-                            modifier = Modifier.padding(bottom = 2.dp)
-                        )
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Box(modifier = Modifier.size(10.dp).clip(RoundedCornerShape(2.dp)).background(Color(0xFF4DDFAC)))
-                            Spacer(modifier = Modifier.width(6.dp))
-                            Text("Promising", color = Color.White, fontSize = 10.sp)
-                        }
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Box(modifier = Modifier.size(10.dp).clip(RoundedCornerShape(2.dp)).background(Color(0xFFE8C86B)))
-                            Spacer(modifier = Modifier.width(6.dp))
-                            Text("Possible", color = Color.White, fontSize = 10.sp)
-                        }
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Box(modifier = Modifier.size(10.dp).clip(RoundedCornerShape(2.dp)).background(Color(0xFF6B8775).copy(alpha = 0.5f)))
-                            Spacer(modifier = Modifier.width(6.dp))
-                            Text("Quiet", color = Color.White, fontSize = 10.sp)
+                        Column(
+                            modifier = Modifier
+                                .padding(top = 130.dp, end = 16.dp)
+                                .background(Color.Black.copy(alpha = 0.75f), RoundedCornerShape(8.dp))
+                                .border(1.dp, Color.White.copy(alpha = 0.15f), RoundedCornerShape(8.dp))
+                                .padding(10.dp),
+                            horizontalAlignment = Alignment.Start,
+                            verticalArrangement = Arrangement.spacedBy(4.dp)
+                        ) {
+                            Text(
+                                text = "Likelihood",
+                                color = Color.White,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 10.sp,
+                                modifier = Modifier.padding(bottom = 2.dp)
+                            )
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Box(modifier = Modifier.size(10.dp).clip(RoundedCornerShape(2.dp)).background(Color(0xFFFF6B6B)))
+                                Spacer(modifier = Modifier.width(6.dp))
+                                Text("Excellent >80%", color = Color.White, fontSize = 9.sp)
+                            }
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Box(modifier = Modifier.size(10.dp).clip(RoundedCornerShape(2.dp)).background(Color(0xFF4DDFAC)))
+                                Spacer(modifier = Modifier.width(6.dp))
+                                Text("Very Good 60-80%", color = Color.White, fontSize = 9.sp)
+                            }
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Box(modifier = Modifier.size(10.dp).clip(RoundedCornerShape(2.dp)).background(Color(0xFFE8C86B)))
+                                Spacer(modifier = Modifier.width(6.dp))
+                                Text("Promising 40-60%", color = Color.White, fontSize = 9.sp)
+                            }
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Box(modifier = Modifier.size(10.dp).clip(RoundedCornerShape(2.dp)).background(Color(0xFF8B9D93)))
+                                Spacer(modifier = Modifier.width(6.dp))
+                                Text("Possible 20-40%", color = Color.White, fontSize = 9.sp)
+                            }
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Box(modifier = Modifier.size(10.dp).clip(RoundedCornerShape(2.dp)).background(Color(0xFF6B8775).copy(alpha = 0.3f)))
+                                Spacer(modifier = Modifier.width(6.dp))
+                                Text("Unlikely <20%", color = Color.White, fontSize = 9.sp)
+                            }
                         }
                     }
 
@@ -333,10 +355,15 @@ fun MapScreen(
                         }
                     }
 
-                    // Dynamic Floating Geolocation Search & presets Column (Top Overlay)
+                    // Dynamic Floating Geolocation Search & presets Column (hidden in fullscreen)
+                    androidx.compose.animation.AnimatedVisibility(
+                        visible = !isFullscreen,
+                        enter = expandVertically() + fadeIn(),
+                        exit = shrinkVertically() + fadeOut(),
+                        modifier = Modifier.align(Alignment.TopCenter)
+                    ) {
                     Column(
                         modifier = Modifier
-                            .align(Alignment.TopCenter)
                             .fillMaxWidth()
                             .padding(12.dp),
                         verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -484,6 +511,7 @@ fun MapScreen(
                             }
                         }
                     }
+                    } // end AnimatedVisibility for search bar
 
                     // Loading Spinner Overlay
                     if (isRunning) {
@@ -854,7 +882,7 @@ fun MapScreen(
                                                 .fillMaxWidth()
                                                 .border(
                                                     width = 1.dp,
-                                                    color = if (cell.tier == "High") Color(0xFF4DDFAC).copy(alpha = 0.5f) else Color(0xFFE8C86B).copy(alpha = 0.5f),
+                                                    color = tierColor(cell.tier).copy(alpha = 0.5f),
                                                     shape = RoundedCornerShape(8.dp)
                                                 ),
                                             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp))
@@ -870,20 +898,14 @@ fun MapScreen(
                                                             modifier = Modifier
                                                                 .size(10.dp)
                                                                 .clip(RoundedCornerShape(2.dp))
-                                                                .background(
-                                                                    if (cell.tier == "High") Color(0xFF4DDFAC) else Color(0xFFE8C86B)
-                                                                )
+                                                                .background(tierColor(cell.tier))
                                                         )
                                                         Spacer(modifier = Modifier.width(6.dp))
                                                         Text(
-                                                            text = when (cell.tier) {
-                                                                "High" -> "Promising"
-                                                                "Medium" -> "Possible"
-                                                                else -> "Quiet"
-                                                            },
+                                                            text = tierLabel(cell.tier),
                                                             style = MaterialTheme.typography.labelSmall,
                                                             fontWeight = FontWeight.Bold,
-                                                            color = if (cell.tier == "High") Color(0xFF4DDFAC) else Color(0xFFE8C86B)
+                                                            color = tierColor(cell.tier)
                                                         )
                                                     }
                                                     Spacer(modifier = Modifier.height(4.dp))
@@ -927,16 +949,21 @@ fun MapScreen(
                 } // end AnimatedVisibility
             }
 
-            // 3. Floating Bottom Details overlay panel from clicking a specific Hotspot Cell!
+            // 3. Floating Bottom Details overlay panel (hidden in fullscreen)
+            AnimatedVisibility(
+                visible = !isFullscreen && selectedHotspotCell != null,
+                enter = expandVertically(expandFrom = Alignment.Bottom) + fadeIn(),
+                exit = shrinkVertically(shrinkTowards = Alignment.Bottom) + fadeOut(),
+                modifier = Modifier.align(Alignment.BottomCenter)
+            ) {
             selectedHotspotCell?.let { cell ->
                 Card(
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(12.dp)),
                     modifier = Modifier
-                        .align(Alignment.BottomCenter)
                         .padding(16.dp)
                         .fillMaxWidth()
                         .wrapContentHeight()
-                        .border(1.5.dp, if (cell.tier == "High") Color(0xFF4DDFAC) else if (cell.tier == "Medium") Color(0xFFE8C86B) else Color(0xFF6B8775), RoundedCornerShape(12.dp))
+                        .border(1.5.dp, tierColor(cell.tier), RoundedCornerShape(12.dp))
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
                         Row(
@@ -949,24 +976,14 @@ fun MapScreen(
                                     modifier = Modifier
                                         .size(16.dp)
                                         .clip(RoundedCornerShape(4.dp))
-                                        .background(
-                                            when (cell.tier) {
-                                                "High" -> Color(0xFF4DDFAC)
-                                                "Medium" -> Color(0xFFE8C86B)
-                                                else -> Color(0xFF6B8775)
-                                            }
-                                        )
+                                        .background(tierColor(cell.tier))
                                 )
                                 Spacer(modifier = Modifier.width(8.dp))
                                 Text(
-                                    text = when (cell.tier) {
-                                        "High" -> "Promising spot"
-                                        "Medium" -> "Possible spot"
-                                        else -> "Quiet — little local evidence"
-                                    },
+                                    text = "${tierLabel(cell.tier)} spot",
                                     style = MaterialTheme.typography.titleSmall,
                                     fontWeight = FontWeight.Bold,
-                                    color = if (cell.tier == "High") Color(0xFF4DDFAC) else MaterialTheme.colorScheme.onSurface
+                                    color = tierColor(cell.tier)
                                 )
                             }
                             IconButton(onClick = { selectedHotspotCell = null }) {
@@ -1037,6 +1054,7 @@ fun MapScreen(
                     }
                 }
             }
+            } // end AnimatedVisibility for hotspot details
         }
     }
 }
@@ -1108,8 +1126,8 @@ fun OSMMapView(
             val cellHeight = 0.0045
             
             for (cell in hotspotCells) {
-                if (cell.tier == "Low") continue
-                
+                if (cell.tier == "Unlikely") continue // Skip lowest tier for visual clarity
+
                 val halfW = cellWidth / 2.0
                 val halfH = cellHeight / 2.0
                 val pts = listOf(
@@ -1118,20 +1136,28 @@ fun OSMMapView(
                     GeoPoint(cell.lat - halfH, cell.lng + halfW),
                     GeoPoint(cell.lat - halfH, cell.lng - halfW)
                 )
-                
+
                 val cellPoly = Polygon(mapView).apply {
                     points = pts
                     fillColor = when (cell.tier) {
-                        "High" -> android.graphics.Color.argb(110, 77, 223, 172)   // mint, "likely fruiting"
-                        "Medium" -> android.graphics.Color.argb(85, 232, 200, 107) // chanterelle gold
-                        else -> android.graphics.Color.argb(40, 107, 135, 117)     // dim sage
+                        "Excellent" -> android.graphics.Color.argb(140, 255, 107, 107)  // warm red — hotspot
+                        "VeryGood"  -> android.graphics.Color.argb(120, 77, 223, 172)   // mint green
+                        "Promising" -> android.graphics.Color.argb(95, 232, 200, 107)   // chanterelle gold
+                        "Possible"  -> android.graphics.Color.argb(60, 139, 157, 147)   // muted sage
+                        else -> android.graphics.Color.argb(30, 107, 135, 117)          // dim sage
                     }
                     strokeColor = when (cell.tier) {
-                        "High" -> android.graphics.Color.parseColor("#4DDFAC")
-                        "Medium" -> android.graphics.Color.parseColor("#E8C86B")
+                        "Excellent" -> android.graphics.Color.parseColor("#FF6B6B")
+                        "VeryGood"  -> android.graphics.Color.parseColor("#4DDFAC")
+                        "Promising" -> android.graphics.Color.parseColor("#E8C86B")
+                        "Possible"  -> android.graphics.Color.parseColor("#8B9D93")
                         else -> android.graphics.Color.parseColor("#6B8775")
                     }
-                    strokeWidth = 2f
+                    strokeWidth = when (cell.tier) {
+                        "Excellent" -> 3f
+                        "VeryGood" -> 2.5f
+                        else -> 1.5f
+                    }
                     setOnClickListener { _, _, _ ->
                         onCellSelected(cell)
                         true
@@ -1177,8 +1203,10 @@ fun OSMMapView(
 
 /**
  * Maps a user-selected map style to a concrete OSM tile source.
- * "Dark" uses the standard street tiles with a colour-inversion filter applied
- * separately (see OSMMapView), since osmdroid has no bundled dark basemap.
+ *
+ * DEFAULT is OpenTopoMap (terrain/topography) — the best basemap for
+ * identifying woodland, river, and elevation features relevant to
+ * mushroom habitat. "Dark" uses standard tiles with colour inversion.
  */
 private fun tileSourceForTheme(theme: String): ITileSource = when (theme) {
     "Standard Street" -> TileSourceFactory.MAPNIK
@@ -1187,7 +1215,28 @@ private fun tileSourceForTheme(theme: String): ITileSource = when (theme) {
         "USGS_SAT", 0, 18, 256, ".jpg",
         arrayOf("https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/")
     )
-    else -> TileSourceFactory.OpenTopo // "Topographic" is default
+    else -> org.osmdroid.tileprovider.tilesource.XYTileSource(
+        "OpenTopoMap", 0, 17, 256, ".png",
+        arrayOf("https://a.tile.opentopomap.org/", "https://b.tile.opentopomap.org/", "https://c.tile.opentopomap.org/")
+    ) // "Topographic" is default — OpenTopoMap shows terrain, not roads
+}
+
+/** Maps a 5-tier name to its display label. */
+private fun tierLabel(tier: String): String = when (tier) {
+    "Excellent" -> "Excellent"
+    "VeryGood"  -> "Very Good"
+    "Promising" -> "Promising"
+    "Possible"  -> "Possible"
+    else        -> "Unlikely"
+}
+
+/** Maps a 5-tier name to its UI colour. */
+private fun tierColor(tier: String): Color = when (tier) {
+    "Excellent" -> Color(0xFFFF6B6B)  // warm red
+    "VeryGood"  -> Color(0xFF4DDFAC)  // mint green
+    "Promising" -> Color(0xFFE8C86B)  // chanterelle gold
+    "Possible"  -> Color(0xFF8B9D93)  // muted sage
+    else        -> Color(0xFF6B8775)  // dim forest
 }
 
 private fun calculateDistanceBetweenPoints(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
