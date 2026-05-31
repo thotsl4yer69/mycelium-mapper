@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Backup/transfer rules. The app stores only personal sightings (Room),
+  cached iNaturalist responses, and DataStore preferences — all of which are
+  safe to back up and restore on a new device.
+-->
+<data-extraction-rules>
+    <cloud-backup />
+    <device-transfer />
+</data-extraction-rules>
