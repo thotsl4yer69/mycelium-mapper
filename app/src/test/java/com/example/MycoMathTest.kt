@@ -39,6 +39,33 @@ class MycoMathTest {
     }
 
     @Test
+    fun `seasonal fitness peaks mid-window and is highest at the peak`() {
+        // Autumn window April(4)–June(6): mid-May is the peak.
+        val peak = MycoMath.seasonalFitness(dayOfYear = 135, seasonStart = 4, seasonEnd = 6) // ~May 15
+        val edge = MycoMath.seasonalFitness(dayOfYear = 105, seasonStart = 4, seasonEnd = 6) // ~Apr 15
+        assertEquals(1.0, peak, 1e-9)
+        assertTrue("Peak ($peak) should score at least as high as the edge ($edge)", peak >= edge)
+    }
+
+    @Test
+    fun `seasonal fitness decays continuously across the shoulder with no cliff`() {
+        // Walk day-by-day outward from the season-window edge into the shoulder
+        // and assert the score never drops by more than a small step between
+        // consecutive days (regression test for the old 0.6 -> 0.3 cliff).
+        val start = 4
+        val end = 6
+        var prev = MycoMath.seasonalFitness(1, start, end)
+        for (day in 2..365) {
+            val cur = MycoMath.seasonalFitness(day, start, end)
+            assertTrue(
+                "Discontinuity at day $day: $prev -> $cur",
+                kotlin.math.abs(cur - prev) <= 0.12
+            )
+            prev = cur
+        }
+    }
+
+    @Test
     fun `haversine distance between identical points is zero`() {
         assertEquals(0.0, MycoMath.haversineMeters(-37.8136, 144.9631, -37.8136, 144.9631), 1e-6)
     }
