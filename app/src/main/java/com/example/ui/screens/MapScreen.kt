@@ -49,6 +49,8 @@ import org.osmdroid.views.overlay.TilesOverlay
 import androidx.compose.ui.viewinterop.AndroidView
 import org.osmdroid.tileprovider.tilesource.ITileSource
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
+import org.osmdroid.tileprovider.tilesource.XYTileSource
+import org.osmdroid.util.MapTileIndex
 
 private data class PresetLoc(val name: String, val lat: Double, val lng: Double)
 
@@ -1191,13 +1193,27 @@ fun OSMMapView(
  * identifying woodland, river, and elevation features relevant to
  * mushroom habitat. "Dark" uses standard tiles with colour inversion.
  */
+/**
+ * Esri World Imagery — a global satellite/aerial basemap. ArcGIS tile servers
+ * expect `{z}/{y}/{x}` (level/row/col) with no file extension, which osmdroid's
+ * stock XYTileSource (`{z}/{x}/{y}`) does not produce, so we override the URL
+ * builder. (The previous USGS source was both malformed and US-only — blank
+ * over Victoria, the app's entire target region.)
+ */
+private val esriWorldImagery: ITileSource = object : XYTileSource(
+    "EsriWorldImagery", 0, 19, 256, "",
+    arrayOf("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/"),
+    "© Esri — Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community"
+) {
+    override fun getTileURLString(pMapTileIndex: Long): String =
+        baseUrl + MapTileIndex.getZoom(pMapTileIndex) + "/" +
+            MapTileIndex.getY(pMapTileIndex) + "/" + MapTileIndex.getX(pMapTileIndex)
+}
+
 private fun tileSourceForTheme(theme: String): ITileSource = when (theme) {
     "Standard Street" -> TileSourceFactory.MAPNIK
     "Dark" -> TileSourceFactory.MAPNIK // rendered dark via the INVERT_COLORS filter
-    // Use osmdroid's built-in, correctly-configured sources. A hand-rolled
-    // XYTileSource for the USGS ArcGIS endpoint sent the wrong tile axis order
-    // and a ".jpg" suffix the server rejects (HTTP 400), so satellite was blank.
-    "Satellite" -> TileSourceFactory.USGS_SAT
+    "Satellite" -> esriWorldImagery
     else -> TileSourceFactory.OpenTopo // "Topographic" default — terrain, not roads
 }
 
