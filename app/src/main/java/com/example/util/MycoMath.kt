@@ -65,7 +65,11 @@ object MycoMath {
         return when {
             dist <= seasonLength / 4.0 -> 1.0  // Near peak
             dist <= seasonLength / 2.0 -> 0.6 + 0.4 * (1.0 - (dist - seasonLength / 4.0) / (seasonLength / 4.0))
-            dist <= halfWindow -> 0.3 * (1.0 - (dist - seasonLength / 2.0) / 14.0) // Shoulder
+            // Shoulder weeks: decay continuously from the window-edge value (0.6)
+            // down to 0 across the 14-day shoulder. (Previously this jumped
+            // straight from 0.6 to 0.3 at the edge — a ~30-point cliff for a
+            // single day's difference.)
+            dist <= halfWindow -> 0.6 * (1.0 - (dist - seasonLength / 2.0) / 14.0)
             else -> 0.0
         }.coerceIn(0.0, 1.0)
     }

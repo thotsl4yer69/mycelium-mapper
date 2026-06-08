@@ -39,6 +39,7 @@ are public and keyless.
 
 ## Build matrix
 
-This project targets stable tooling (Android Gradle Plugin 8.7.x, Kotlin 2.0.x,
-`compileSdk`/`targetSdk` 35). See `CHANGES.md` for the full version list and the
-history of how it was migrated off the original AI Studio canary configuration.
+This project targets Android Gradle Plugin 9.2.x, Kotlin 2.2.x, Gradle 9.4.x,
+and `compileSdk`/`targetSdk` 35 (built with JDK 17). See `CHANGES.md` for the
+full version list and the history of how it was migrated off the original AI
+Studio canary configuration.

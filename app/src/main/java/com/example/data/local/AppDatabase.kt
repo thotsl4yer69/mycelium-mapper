@@ -12,7 +12,10 @@ import com.example.model.UserSighting
 @Database(
     entities = [Species::class, Observation::class, UserSighting::class],
     version = 3,
-    exportSchema = false
+    // Schemas are exported to app/schemas and checked in so future versions can
+    // ship proper Room migrations (validated against the committed schema)
+    // instead of destructively wiping the user's sightings logbook.
+    exportSchema = true
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
@@ -29,6 +32,9 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "mycelium_mapper_db"
                 )
+                // Pre-1.0 backstop only. Once a released schema exists, add a
+                // Migration(n, n+1) (validated against app/schemas) and remove
+                // this so upgrades preserve the user's sightings.
                 .fallbackToDestructiveMigration()
                 .build()
                 INSTANCE = instance

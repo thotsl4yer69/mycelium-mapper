@@ -11,8 +11,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.*
 import androidx.compose.foundation.lazy.*
-import androidx.compose.foundation.gestures.detectDragGestures
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,14 +21,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.PathEffect
-import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.nativeCanvas
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.TextStyle
@@ -49,9 +40,6 @@ import java.util.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.Dispatchers
-import kotlin.math.cos
-import kotlin.math.sin
-import kotlin.math.ceil
 import org.osmdroid.config.Configuration
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
@@ -61,6 +49,8 @@ import org.osmdroid.views.overlay.TilesOverlay
 import androidx.compose.ui.viewinterop.AndroidView
 import org.osmdroid.tileprovider.tilesource.ITileSource
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
+import org.osmdroid.tileprovider.tilesource.XYTileSource
+import org.osmdroid.util.MapTileIndex
 
 private data class PresetLoc(val name: String, val lat: Double, val lng: Double)
 
@@ -1070,15 +1060,12 @@ fun OSMMapView(
     onCellSelected: (HotspotCell) -> Unit,
     onPointSelected: (Double, Double) -> Unit
 ) {
-    val context = LocalContext.current
-    
-    // Initialize standard user agent for OSM required by policy
-    LaunchedEffect(Unit) {
-        Configuration.getInstance().userAgentValue = context.packageName
-    }
-    
     AndroidView(
         factory = { ctx ->
+            // osmdroid rejects tile downloads without a user agent, so set it
+            // before the MapView is created (otherwise the first tile fetches
+            // can fire before it's configured and come back blank).
+            Configuration.getInstance().userAgentValue = ctx.packageName
             MapView(ctx).apply {
                 setTileSource(tileSourceForTheme(mapTheme))
                 setMultiTouchControls(true)
@@ -1119,9 +1106,7 @@ fun OSMMapView(
             }
             mapView.overlays.add(circlePolygon)
 
-            // 2. Add Hotspot Cells
-            val rad = centerX * Math.PI / 180.0
-            val cosLngFactor = Math.cos(rad)
+            // 2. Add Hotspot Cells (cell size matches the repository's grid steps)
             val cellWidth = 0.0057
             val cellHeight = 0.0045
             
@@ -1208,17 +1193,28 @@ fun OSMMapView(
  * identifying woodland, river, and elevation features relevant to
  * mushroom habitat. "Dark" uses standard tiles with colour inversion.
  */
+/**
+ * Esri World Imagery — a global satellite/aerial basemap. ArcGIS tile servers
+ * expect `{z}/{y}/{x}` (level/row/col) with no file extension, which osmdroid's
+ * stock XYTileSource (`{z}/{x}/{y}`) does not produce, so we override the URL
+ * builder. (The previous USGS source was both malformed and US-only — blank
+ * over Victoria, the app's entire target region.)
+ */
+private val esriWorldImagery: ITileSource = object : XYTileSource(
+    "EsriWorldImagery", 0, 19, 256, "",
+    arrayOf("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/"),
+    "© Esri — Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community"
+) {
+    override fun getTileURLString(pMapTileIndex: Long): String =
+        baseUrl + MapTileIndex.getZoom(pMapTileIndex) + "/" +
+            MapTileIndex.getY(pMapTileIndex) + "/" + MapTileIndex.getX(pMapTileIndex)
+}
+
 private fun tileSourceForTheme(theme: String): ITileSource = when (theme) {
     "Standard Street" -> TileSourceFactory.MAPNIK
-    "Dark" -> TileSourceFactory.MAPNIK // uses color inversion filter
-    "Satellite" -> org.osmdroid.tileprovider.tilesource.XYTileSource(
-        "USGS_SAT", 0, 18, 256, ".jpg",
-        arrayOf("https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/")
-    )
-    else -> org.osmdroid.tileprovider.tilesource.XYTileSource(
-        "OpenTopoMap", 0, 17, 256, ".png",
-        arrayOf("https://a.tile.opentopomap.org/", "https://b.tile.opentopomap.org/", "https://c.tile.opentopomap.org/")
-    ) // "Topographic" is default — OpenTopoMap shows terrain, not roads
+    "Dark" -> TileSourceFactory.MAPNIK // rendered dark via the INVERT_COLORS filter
+    "Satellite" -> esriWorldImagery
+    else -> TileSourceFactory.OpenTopo // "Topographic" default — terrain, not roads
 }
 
 /** Maps a 5-tier name to its display label. */
@@ -1239,17 +1235,3 @@ private fun tierColor(tier: String): Color = when (tier) {
     else        -> Color(0xFF6B8775)  // dim forest
 }
 
-private fun calculateDistanceBetweenPoints(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
-    val R = 6371e3
-    val phi1 = lat1 * Math.PI / 180.0
-    val phi2 = lat2 * Math.PI / 180.0
-    val deltaPhi = (lat2 - lat1) * Math.PI / 180.0
-    val deltaLambda = (lon2 - lon1) * Math.PI / 180.0
-
-    val a = sin(deltaPhi / 2) * sin(deltaPhi / 2) +
-            cos(phi1) * cos(phi2) *
-            sin(deltaLambda / 2) * sin(deltaLambda / 2)
-    val c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
-
-    return R * c
-}

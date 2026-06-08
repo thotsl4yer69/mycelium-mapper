@@ -1,72 +1,142 @@
-"""Download species images from Wikimedia Commons with rate-limit handling."""
-import os, time, urllib.request, urllib.error, sys
+"""Download species reference images from Wikimedia Commons.
+
+For each species in species.json this queries the Commons API for File-namespace
+images matching the scientific name, prefers files whose title actually contains
+the genus + species, and downloads up to three 1024px-wide JPEG thumbnails into
+app/src/main/assets/species_images/<id>_N.jpg.
+
+Using the API (rather than guessing hashed upload paths) guarantees the URLs
+resolve, and using server-side thumbnails keeps the bundled assets small.
+A fresh download_manifest.txt is written so the bundle is reproducible.
+"""
+import json
+import os
+import time
+import urllib.parse
+import urllib.request
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 IMG_DIR = os.path.join(SCRIPT_DIR, "app", "src", "main", "assets", "species_images")
+SPECIES_JSON = os.path.join(SCRIPT_DIR, "app", "src", "main", "assets", "species.json")
 MANIFEST = os.path.join(IMG_DIR, "download_manifest.txt")
-DELAY = 5  # seconds between downloads
-MAX_RETRIES = 3
+
+API = "https://commons.wikimedia.org/w/api.php"
+UA = "MycilliyumsApp/1.0 (mazlabz.ai@gmail.com; Android mycology field guide; one-time asset bundle)"
+THUMB_WIDTH = 1024
+PER_SPECIES = 3
+DELAY = 1.0  # polite delay between network calls
 
 os.makedirs(IMG_DIR, exist_ok=True)
 
-opener = urllib.request.build_opener()
-opener.addheaders = [
-    ("User-Agent", "MycilliyumsApp/1.0 (jack@mazlabz.ai; one-time asset bundle; Android field guide)")
-]
-urllib.request.install_opener(opener)
 
-with open(MANIFEST, "r") as f:
-    lines = [l.strip() for l in f if l.strip()]
+def api_get(params):
+    params = dict(params, format="json")
+    url = API + "?" + urllib.parse.urlencode(params)
+    req = urllib.request.Request(url, headers={"User-Agent": UA})
+    with urllib.request.urlopen(req, timeout=30) as resp:
+        return json.load(resp)
 
-total = len(lines)
-ok = fail = skip = 0
-print(f"\n=== Downloading {total} species images ({DELAY}s between each) ===\n")
 
-for i, line in enumerate(lines):
-    fname, url = line.split("|", 1)
-    fname, url = fname.strip(), url.strip()
-    dest = os.path.join(IMG_DIR, fname)
+def search_images(scientific_name):
+    """Return candidate (title, thumburl) pairs for a scientific name, most
+    relevant first. Prefers JPEGs whose filename contains both name words."""
+    data = api_get({
+        "action": "query",
+        "generator": "search",
+        "gsrsearch": f'intitle:"{scientific_name}"',
+        "gsrnamespace": 6,
+        "gsrlimit": 30,
+        "prop": "imageinfo",
+        "iiprop": "url|size|mime",
+        "iiurlwidth": THUMB_WIDTH,
+    })
+    pages = list(data.get("query", {}).get("pages", {}).values())
 
-    if os.path.exists(dest) and os.path.getsize(dest) > 5000:
-        sz = os.path.getsize(dest) // 1024
-        print(f"  SKIP {fname} ({sz}KB already exists)")
-        ok += 1; skip += 1
-        continue
+    words = [w.lower() for w in scientific_name.split()]
+    candidates = []
+    for p in pages:
+        info = (p.get("imageinfo") or [None])[0]
+        if not info:
+            continue
+        if info.get("mime") != "image/jpeg":
+            continue
+        if (info.get("width") or 0) < 800:
+            continue
+        thumb = info.get("thumburl") or info.get("url")
+        if not thumb:
+            continue
+        title = p.get("title", "").lower()
+        # Relevance: title contains all name words > contains genus only.
+        if all(w in title for w in words):
+            rank = 0
+        elif words and words[0] in title:
+            rank = 1
+        else:
+            rank = 2
+        # search index preserves API relevance order within a rank bucket
+        candidates.append((rank, p.get("index", 999), info["url"], thumb))
 
-    success = False
-    for attempt in range(1, MAX_RETRIES + 1):
-        retry_note = f" (retry {attempt})" if attempt > 1 else ""
-        print(f"  [{i+1}/{total}] {fname}{retry_note} ... ", end="", flush=True)
-        try:
-            urllib.request.urlretrieve(url, dest)
-            sz = os.path.getsize(dest) // 1024
-            print(f"OK ({sz}KB)")
-            ok += 1; success = True
-            break
-        except urllib.error.HTTPError as e:
-            if e.code == 429:
-                backoff = DELAY * (2 ** attempt)
-                print(f"rate-limited, waiting {backoff}s...")
-                time.sleep(backoff)
-            else:
-                print(f"HTTP {e.code}")
-                break
-        except Exception as e:
-            print(f"ERROR: {e}")
-            break
+    candidates.sort(key=lambda c: (c[0], c[1]))
+    # de-dup by source url, keep order
+    seen, out = set(), []
+    for _, _, src, thumb in candidates:
+        if src in seen:
+            continue
+        seen.add(src)
+        out.append((src, thumb))
+    return out
 
-    if not success:
-        fail += 1
-        if os.path.exists(dest):
-            os.remove(dest)
 
-    if i < total - 1 and success:
+def download(url, dest):
+    req = urllib.request.Request(url, headers={"User-Agent": UA})
+    with urllib.request.urlopen(req, timeout=60) as resp:
+        data = resp.read()
+    if len(data) < 5000:
+        raise ValueError(f"suspiciously small ({len(data)} bytes)")
+    with open(dest, "wb") as f:
+        f.write(data)
+    return len(data)
+
+
+def main():
+    species = json.load(open(SPECIES_JSON))
+    manifest_lines = []
+    total_ok = total_fail = 0
+
+    for sp in species:
+        sid, sci = sp["id"], sp["scientificName"]
+        print(f"\n=== {sci} ({sid}) ===")
+        candidates = search_images(sci)
         time.sleep(DELAY)
+        if not candidates:
+            print("  no candidates found")
+        got = 0
+        ci = 0
+        while got < PER_SPECIES and ci < len(candidates):
+            src, thumb = candidates[ci]
+            ci += 1
+            fname = f"{sid}_{got + 1}.jpg"
+            dest = os.path.join(IMG_DIR, fname)
+            try:
+                sz = download(thumb, dest)
+                print(f"  OK {fname} ({sz // 1024}KB)")
+                manifest_lines.append(f"{fname}|{src}")
+                got += 1
+                total_ok += 1
+                time.sleep(DELAY)
+            except Exception as e:
+                print(f"  FAIL {fname}: {e}")
+        if got < PER_SPECIES:
+            total_fail += (PER_SPECIES - got)
+            print(f"  WARNING: only {got}/{PER_SPECIES} images for {sid}")
 
-print(f"\n=== Done: {ok} OK ({skip} skipped), {fail} failed ===")
-if fail == 0:
-    print("All images ready. Build the app.")
-else:
-    print(f"Re-run to retry {fail} failures.")
+    with open(MANIFEST, "w") as f:
+        f.write("# Generated by download_images.py via the Wikimedia Commons API.\n")
+        f.write("# <local filename>|<source file URL on Wikimedia Commons>\n")
+        f.write("\n".join(manifest_lines) + "\n")
 
-input("\nPress Enter to close...")
+    print(f"\n=== Done: {total_ok} downloaded, {total_fail} missing ===")
+
+
+if __name__ == "__main__":
+    main()

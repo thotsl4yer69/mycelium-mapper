@@ -73,6 +73,11 @@ android {
   testOptions { unitTests { isIncludeAndroidResources = true } }
 }
 
+// Export Room schemas so future DB versions can ship verified migrations.
+ksp {
+  arg("room.schemaLocation", "$projectDir/schemas")
+}
+
 dependencies {
   implementation(platform(libs.androidx.compose.bom))
   implementation(libs.androidx.activity.compose)
