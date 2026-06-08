@@ -42,6 +42,7 @@ fun SettingsScreen(
     var showExportSuccessDialog by remember { mutableStateOf(false) }
     var exportedCsvFilePath by remember { mutableStateOf("") }
     var exportedCsvPreview by remember { mutableStateOf("") }
+    var showAttributions by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -317,6 +318,46 @@ fun SettingsScreen(
                     }
                 }
             }
+
+            // 5. Image credits / attributions
+            Card(
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp)
+            ) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(imageVector = Icons.Default.Photo, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+                        Spacer(modifier = Modifier.width(12.dp))
+                        Text(
+                            text = "Image credits",
+                            style = MaterialTheme.typography.titleSmall,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "Species photos are from Wikimedia Commons, used under their respective Creative Commons / public-domain licenses.",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        lineHeight = 16.sp
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Button(
+                        onClick = { showAttributions = true },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(44.dp)
+                            .testTag("image_credits_button"),
+                        shape = RoundedCornerShape(8.dp)
+                    ) {
+                        Icon(imageVector = Icons.Default.Copyright, contentDescription = null)
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(text = "View image credits", fontWeight = FontWeight.Bold)
+                    }
+                }
+            }
         }
     }
 
@@ -391,6 +432,10 @@ fun SettingsScreen(
                 }
             }
         )
+    }
+
+    if (showAttributions) {
+        AttributionsScreen(onBack = { showAttributions = false })
     }
 }
 

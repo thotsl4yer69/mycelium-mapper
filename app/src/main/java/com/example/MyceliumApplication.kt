@@ -27,7 +27,9 @@ class MyceliumApplication : Application() {
         settingsStore = SettingsStore(this)
 
         val logging = HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
+            // Full request/response logging only in debug builds.
+            level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY
+                    else HttpLoggingInterceptor.Level.NONE
         }
         val okHttpClient = OkHttpClient.Builder()
             .addInterceptor(logging)

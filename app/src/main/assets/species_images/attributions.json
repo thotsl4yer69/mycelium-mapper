@@ -1,0 +1,410 @@
+{
+  "source": "Wikimedia Commons",
+  "images": [
+    {
+      "file": "amanita_muscaria_1.jpg",
+      "speciesId": "amanita_muscaria",
+      "scientificName": "Amanita muscaria",
+      "artist": "Dominicus Johannes Bergsma",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Vliegenzwam_(Amanita_muscaria)._Locatie_De_Famberhorst._27-09-2020_(d.j.b.).jpg"
+    },
+    {
+      "file": "amanita_muscaria_2.jpg",
+      "speciesId": "amanita_muscaria",
+      "scientificName": "Amanita muscaria",
+      "artist": "Tim Bekaert",
+      "license": "Public domain",
+      "licenseUrl": "",
+      "source": "https://commons.wikimedia.org/wiki/File:Amanita_muscaria_tyndrum.jpg"
+    },
+    {
+      "file": "amanita_muscaria_3.jpg",
+      "speciesId": "amanita_muscaria",
+      "scientificName": "Amanita muscaria",
+      "artist": "Quartl",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Amanita_muscaria_qtl4.jpg"
+    },
+    {
+      "file": "psilocybe_subaeruginosa_1.jpg",
+      "speciesId": "psilocybe_subaeruginosa",
+      "scientificName": "Psilocybe subaeruginosa",
+      "artist": "Robert Vennell",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Psilocybe_subaeruginosa_191429642.jpg"
+    },
+    {
+      "file": "psilocybe_subaeruginosa_2.jpg",
+      "speciesId": "psilocybe_subaeruginosa",
+      "scientificName": "Psilocybe subaeruginosa",
+      "artist": "_Otto_",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Psilocybe.subaeruginosa.8.jpg"
+    },
+    {
+      "file": "psilocybe_subaeruginosa_3.jpg",
+      "speciesId": "psilocybe_subaeruginosa",
+      "scientificName": "Psilocybe subaeruginosa",
+      "artist": "Alan Rockefeller",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Psilocybe_subaeruginosa_Hamilton_NZ.jpg"
+    },
+    {
+      "file": "omphalotus_nidiformis_1.jpg",
+      "speciesId": "omphalotus_nidiformis",
+      "scientificName": "Omphalotus nidiformis",
+      "artist": "This image was created by user Ian Dodd  (kk)   (www.kundabungkid.com) Australia (kundabungkid) at Mushroom Observer, a source for mycological images.You can contact this user here.",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Omphalotus_nidiformis_(Berk.)_O.K._Mill_41978.jpg"
+    },
+    {
+      "file": "omphalotus_nidiformis_2.jpg",
+      "speciesId": "omphalotus_nidiformis",
+      "scientificName": "Omphalotus nidiformis",
+      "artist": "Casliber",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Omphalotus_nidiformis_Sylvan_Grove_6_orig.JPG"
+    },
+    {
+      "file": "omphalotus_nidiformis_3.jpg",
+      "speciesId": "omphalotus_nidiformis",
+      "scientificName": "Omphalotus nidiformis",
+      "artist": "This image was created by user Ian Dodd  (kk)   (www.kundabungkid.com) Australia (kundabungkid) at Mushroom Observer, a source for mycological images.You can contact this user here.",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Omphalotus_nidiformis_(Berk.)_O.K._Mill_41988.jpg"
+    },
+    {
+      "file": "gymnopilus_junonius_1.jpg",
+      "speciesId": "gymnopilus_junonius",
+      "scientificName": "Gymnopilus junonius",
+      "artist": "Dominicus Johannes Bergsma",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Paddenstoelen_rond_de_restanten_van_boomstam_(prachtvlamhoed_Gymnopilus_junonius)._Locatie,_Historisch_Park_Heremastate.jpg"
+    },
+    {
+      "file": "gymnopilus_junonius_2.jpg",
+      "speciesId": "gymnopilus_junonius",
+      "scientificName": "Gymnopilus junonius",
+      "artist": "Agnes Monkelbaan",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Prachtvlamhoed_(Gymnopilus_junonius)._09-10-2020._(actm.).jpg"
+    },
+    {
+      "file": "gymnopilus_junonius_3.jpg",
+      "speciesId": "gymnopilus_junonius",
+      "scientificName": "Gymnopilus junonius",
+      "artist": "Tony Wills",
+      "license": "CC BY 2.5",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.5",
+      "source": "https://commons.wikimedia.org/wiki/File:Gymnopilus_junonius-02.jpg"
+    },
+    {
+      "file": "favolaschia_calocera_1.jpg",
+      "speciesId": "favolaschia_calocera",
+      "scientificName": "Favolaschia calocera",
+      "artist": "Bernard Spragg. NZ from Christchurch, New Zealand",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "source": "https://commons.wikimedia.org/wiki/File:Orange_pore_fungus_(Favolaschia_calocera.)_(8724355239).jpg"
+    },
+    {
+      "file": "favolaschia_calocera_2.jpg",
+      "speciesId": "favolaschia_calocera",
+      "scientificName": "Favolaschia calocera",
+      "artist": "Natasha Ceridwen de Chroustchoff",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Favolaschia_calocera_-_geograph.org.uk_-_6635040.jpg"
+    },
+    {
+      "file": "favolaschia_calocera_3.jpg",
+      "speciesId": "favolaschia_calocera",
+      "scientificName": "Favolaschia calocera",
+      "artist": "Michael (inski)",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Favolaschia_calocera_38204.jpg"
+    },
+    {
+      "file": "amanita_phalloides_1.jpg",
+      "speciesId": "amanita_phalloides",
+      "scientificName": "Amanita phalloides",
+      "artist": "George Chernilevsky",
+      "license": "Public domain",
+      "licenseUrl": "",
+      "source": "https://commons.wikimedia.org/wiki/File:Amanita_phalloides_2011_G1.jpg"
+    },
+    {
+      "file": "amanita_phalloides_2.jpg",
+      "speciesId": "amanita_phalloides",
+      "scientificName": "Amanita phalloides",
+      "artist": "George Chernilevsky",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Amanita_phalloides_2025_G3.jpg"
+    },
+    {
+      "file": "amanita_phalloides_3.jpg",
+      "speciesId": "amanita_phalloides",
+      "scientificName": "Amanita phalloides",
+      "artist": "George Chernilevsky",
+      "license": "Public domain",
+      "licenseUrl": "",
+      "source": "https://commons.wikimedia.org/wiki/File:Amanita_phalloides_2011_G2.jpg"
+    },
+    {
+      "file": "macrolepiota_clelandii_1.jpg",
+      "speciesId": "macrolepiota_clelandii",
+      "scientificName": "Macrolepiota clelandii",
+      "artist": "Bernard Spragg. NZ from Christchurch, New Zealand",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "source": "https://commons.wikimedia.org/wiki/File:Macrolepiota_clelandii._(26418232994).jpg"
+    },
+    {
+      "file": "macrolepiota_clelandii_2.jpg",
+      "speciesId": "macrolepiota_clelandii",
+      "scientificName": "Macrolepiota clelandii",
+      "artist": "Lord Mayonnaise",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Macrolepiota_clelandii_151161.jpg"
+    },
+    {
+      "file": "macrolepiota_clelandii_3.jpg",
+      "speciesId": "macrolepiota_clelandii",
+      "scientificName": "Macrolepiota clelandii",
+      "artist": "Ian Dodd (kk) (www.kundabungkid.com) Australia (kundabungkid)",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Macrolepiota_clelandii_14635.jpg"
+    },
+    {
+      "file": "cortinarius_archeri_1.jpg",
+      "speciesId": "cortinarius_archeri",
+      "scientificName": "Cortinarius archeri",
+      "artist": "JJ Harrison (https://www.jjharrison.com.au/)",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Cortinarius_archeri.jpg"
+    },
+    {
+      "file": "cortinarius_archeri_2.jpg",
+      "speciesId": "cortinarius_archeri",
+      "scientificName": "Cortinarius archeri",
+      "artist": "This image was created by user Ian Dodd  (kk)   (www.kundabungkid.com) Australia (kundabungkid) at Mushroom Observer, a source for mycological images.You can contact this user here.",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Cortinarius_archeri_14701.jpg"
+    },
+    {
+      "file": "cortinarius_archeri_3.jpg",
+      "speciesId": "cortinarius_archeri",
+      "scientificName": "Cortinarius archeri",
+      "artist": "Ashleigh Robbins",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Cortinarius_archeri_329630714.jpg"
+    },
+    {
+      "file": "mycena_interrupta_1.jpg",
+      "speciesId": "mycena_interrupta",
+      "scientificName": "Mycena interrupta",
+      "artist": "JJ Harrison (https://www.jjharrison.com.au/)",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Mycena_interrupta.jpg"
+    },
+    {
+      "file": "mycena_interrupta_2.jpg",
+      "speciesId": "mycena_interrupta",
+      "scientificName": "Mycena interrupta",
+      "artist": "Haydenrjones",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Mycena_interrupta_NZ.jpg"
+    },
+    {
+      "file": "mycena_interrupta_3.jpg",
+      "speciesId": "mycena_interrupta",
+      "scientificName": "Mycena interrupta",
+      "artist": "Pengo",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Mycena_interrupta_02_Pengo.jpg"
+    },
+    {
+      "file": "aseroe_rubra_1.jpg",
+      "speciesId": "aseroe_rubra",
+      "scientificName": "Aseroe rubra",
+      "artist": "This image was created by user Len Worthington (lennyworthington) at Mushroom Observer, a source for mycological images.You can contact this user here.",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:2013-02-14_Aseroe_rubra_Labill_309662.jpg"
+    },
+    {
+      "file": "aseroe_rubra_2.jpg",
+      "speciesId": "aseroe_rubra",
+      "scientificName": "Aseroe rubra",
+      "artist": "Aseroe_rubra105.JPG: User:Casliber\nderivative work: Ak ccm",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:2011-05-11_Aseroe_rubra_crop.jpg"
+    },
+    {
+      "file": "aseroe_rubra_3.jpg",
+      "speciesId": "aseroe_rubra",
+      "scientificName": "Aseroe rubra",
+      "artist": "Bex Foxglove",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Aseroe_rubra_349403298.jpg"
+    },
+    {
+      "file": "hypholoma_fasciculare_1.jpg",
+      "speciesId": "hypholoma_fasciculare",
+      "scientificName": "Hypholoma fasciculare",
+      "artist": "Reinhold Möller Ermell",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Gr%C3%BCnbl%C3%A4ttriger_Schwefelkopf_(Hypholoma_fasciculare)_Bruderwald-20251031-RM-153709.jpg"
+    },
+    {
+      "file": "hypholoma_fasciculare_2.jpg",
+      "speciesId": "hypholoma_fasciculare",
+      "scientificName": "Hypholoma fasciculare",
+      "artist": "Ermell",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Gr%C3%BCnbl%C3%A4ttrige_Schwefelk%C3%B6pfe_(Hypholoma_fasciculare)-20201020-RM-110121.jpg"
+    },
+    {
+      "file": "hypholoma_fasciculare_3.jpg",
+      "speciesId": "hypholoma_fasciculare",
+      "scientificName": "Hypholoma fasciculare",
+      "artist": "Jörg Hempel",
+      "license": "CC BY-SA 2.0 de",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0/de/deed.en",
+      "source": "https://commons.wikimedia.org/wiki/File:Hypholoma_fasciculare_LC0091.jpg"
+    },
+    {
+      "file": "coprinus_comatus_1.jpg",
+      "speciesId": "coprinus_comatus",
+      "scientificName": "Coprinus comatus",
+      "artist": "The High Fin Sperm Whale",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Shaggy_inkcaps_(Coprinus_comatus).JPG"
+    },
+    {
+      "file": "coprinus_comatus_2.jpg",
+      "speciesId": "coprinus_comatus",
+      "scientificName": "Coprinus comatus",
+      "artist": "Ermell",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Schopf-Tintling_(Coprinus_comatus)-20191017-RM-153349.jpg"
+    },
+    {
+      "file": "coprinus_comatus_3.jpg",
+      "speciesId": "coprinus_comatus",
+      "scientificName": "Coprinus comatus",
+      "artist": "Agnes Monkelbaan",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Geschubde_inktzwam_(Coprinus_comatus)._Locatie,_Paddenstoelenreservaat._11-10-2021._(actm.)_02.jpg"
+    },
+    {
+      "file": "trametes_versicolor_1.jpg",
+      "speciesId": "trametes_versicolor",
+      "scientificName": "Trametes versicolor",
+      "artist": "Ermell",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Trametes_Versicolor-20191227-RM-145922.jpg"
+    },
+    {
+      "file": "trametes_versicolor_2.jpg",
+      "speciesId": "trametes_versicolor",
+      "scientificName": "Trametes versicolor",
+      "artist": "Norbert Nagel",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Trametes_versicolor_-_Coriolus_versicolor_-_Polyporus_versicolor_-_Schmetterlingstramete_-_Bunte_Tramete_-_Schmetterlingsporling_-_02.jpg"
+    },
+    {
+      "file": "trametes_versicolor_3.jpg",
+      "speciesId": "trametes_versicolor",
+      "scientificName": "Trametes versicolor",
+      "artist": "Norbert Nagel",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Trametes_versicolor_-_Coriolus_versicolor_-_Polyporus_versicolor_-_Schmetterlingstramete_-_Bunte_Tramete_-_Schmetterlingsporling_-_01.jpg"
+    },
+    {
+      "file": "pleurotus_ostreatus_1.jpg",
+      "speciesId": "pleurotus_ostreatus",
+      "scientificName": "Pleurotus ostreatus",
+      "artist": "Dominicus Johannes Bergsma",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Gewone_oesterzwam_(Pleurotus_ostreatus)_31-12-2020_(d.j.b.)_03.jpg"
+    },
+    {
+      "file": "pleurotus_ostreatus_2.jpg",
+      "speciesId": "pleurotus_ostreatus",
+      "scientificName": "Pleurotus ostreatus",
+      "artist": "Zinnmann",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:20210718_Pleurotus_ostreatus_116-138.jpg"
+    },
+    {
+      "file": "pleurotus_ostreatus_3.jpg",
+      "speciesId": "pleurotus_ostreatus",
+      "scientificName": "Pleurotus ostreatus",
+      "artist": "Zinnmann",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:20210719_Pleurotus_ostreatus_098-127.jpg"
+    },
+    {
+      "file": "armillaria_luteobubalina_1.jpg",
+      "speciesId": "armillaria_luteobubalina",
+      "scientificName": "Armillaria luteobubalina",
+      "artist": "This image was created by user Mark Price (marksandyleucapops@gmail.com) at Mushroom Observer, a source for mycological images.You can contact this user here.",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:2012-06-02_Armillaria_luteobubalina_Watling_%26_Kile_223749.jpg"
+    },
+    {
+      "file": "armillaria_luteobubalina_2.jpg",
+      "speciesId": "armillaria_luteobubalina",
+      "scientificName": "Armillaria luteobubalina",
+      "artist": "Lord Mayonnaise",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Armillaria_luteobubalina_151150.jpg"
+    },
+    {
+      "file": "armillaria_luteobubalina_3.jpg",
+      "speciesId": "armillaria_luteobubalina",
+      "scientificName": "Armillaria luteobubalina",
+      "artist": "This image was created by user Lord Mayonnaise at Mushroom Observer, a source for mycological images.You can contact this user here.",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Armillaria_luteobubalina_67511.jpg"
+    }
+  ]
+}
