@@ -6,6 +6,7 @@ name: Release APK
 on:
   push:
     tags: ['v*']
+    branches: [claude/fix-L0gbb]
   workflow_dispatch:
     inputs:
       tag:
@@ -42,15 +43,15 @@ jobs:
       - name: Stage APK
         run: |
           mkdir -p dist
-          TAG="${{ github.event.inputs.tag || github.ref_name }}"
+          TAG="${{ github.event.inputs.tag || (startsWith(github.ref, 'refs/tags/') && github.ref_name) || 'v1.0-debug' }}"
           cp app/build/outputs/apk/debug/app-debug.apk "dist/mycilliyums-${TAG}-debug.apk"
           ls -la dist
 
       - name: Publish GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.event.inputs.tag || github.ref_name }}
-          name: Mycilliyums ${{ github.event.inputs.tag || github.ref_name }}
+          tag_name: ${{ github.event.inputs.tag || (startsWith(github.ref, 'refs/tags/') && github.ref_name) || 'v1.0-debug' }}
+          name: Mycilliyums ${{ github.event.inputs.tag || (startsWith(github.ref, 'refs/tags/') && github.ref_name) || 'v1.0-debug' }}
           prerelease: true
           generate_release_notes: true
           files: dist/*.apk
